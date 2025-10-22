@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flower Vendor Simulation</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page">
+  <header class="header">
+  <h1>💐 Flower Vendor — Inventory Simulation</h1>
+  <p class="subtitle">
+    Buys = 8 $, sells = 15 $, unsold salvage = 3 $, lost profit (stockout) = 7 $ per bouquet
+  </p>
+
+  <div class="presenter-info">
+    <div class="presenter">
+      <p><strong>Name:</strong> Zahoor Ahmed</p>
+      <p><strong>Roll No:</strong> 21SW008</p>
+    </div>
+    <div class="presenter">
+      <p><strong>Name:</strong> Muhammad Shayan</p>
+      <p><strong>Roll No:</strong> 21SW067</p>
+    </div>
+
+  </div>
+</header>
+
+
+    <main class="main">
+      <section class="controls card">
+        <h2>Simulation Settings</h2>
+
+        <div class="form-row">
+          <label>Order quantity per day (multiples of 5):</label>
+          <input id="orderQty" type="number" min="5" step="5" value="35">
+        </div>
+
+        <div class="form-row">
+          <label>Number of days to simulate:</label>
+          <input id="numDays" type="number" min="1" step="1" value="25">
+        </div>
+
+        <div class="form-row">
+          <label>Use the following demand model (fixed):</label>
+          <div class="hint">
+            Peak (40) P=0.25 &nbsp; • &nbsp; Normal (30) P=0.50 &nbsp; • &nbsp; Slow (20) P=0.25
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="runBtn">▶ Run Simulation</button>
+        
+          <button id="resetBtn" class="ghost">Reset Table</button>
+        </div>
+      </section>
+
+      <section class="card formulas">
+        <h3>Formulas (per day)</h3>
+        <ul>
+          <li><strong>Sold</strong> = min(OrderQty, Demand)</li>
+          <li><strong>Revenue</strong> = Sold × $15</li>
+          <li><strong>Cost</strong> = OrderQty × $8</li>
+          <li><strong>Salvage</strong> = max(OrderQty − Demand, 0) × $3</li>
+          <li><strong>LostProfit (shortage)</strong> = max(Demand − OrderQty, 0) × $7</li>
+          <li><strong>DailyProfit</strong> = Revenue + Salvage − Cost − LostProfit</li>
+        </ul>
+      </section>
+
+      <section class="card table-area">
+        <h2>Simulation Table</h2>
+        <div class="table-wrap">
+          <table id="resultTable">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Random #</th>
+                <th>Day Type</th>
+                <th>Demand</th>
+                <th>Sold</th>
+                <th>Revenue ($)</th>
+                <th>Cost ($)</th>
+                <th>Salvage ($)</th>
+                <th>LostProfit ($)</th>
+                <th>DailyProfit ($)</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+              <tr class="summary-row">
+                <td colspan="5"><strong>Totals</strong></td>
+                <td id="totalRevenue">$0.00</td>
+                <td id="totalCost">$0.00</td>
+                <td id="totalSalvage">$0.00</td>
+                <td id="totalLost">$0.00</td>
+                <td id="totalProfit">$0.00</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+
+      <section class="card chart-area">
+        <h2>Chart — Profit vs Day</h2>
+        <canvas id="profitChart" height="120"></canvas>
+      </section>
+
+      <section class="card notes">
+        <h3>Details / Notes</h3>
+        <ol>
+          <li>The random number shown is the uniform random value used to select Peak/Normal/Slow.</li>
+          <li>Day type mapping: r &lt; 0.25 → Peak (40), 0.25 ≤ r &lt; 0.75 → Normal (30), r ≥ 0.75 → Slow (20)</li>
+          <li>Change Order quantity or days and press <em>Run Simulation</em> again.</li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small>Built for simulation exercise — matches slide examples. Save this folder and open <code>index.html</code>.</small>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
