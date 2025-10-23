@@ -1,6 +1,4 @@
-
-
-// --- Parameters for demand model (fixed) ---
+// --- Parameters for demand model array (fixed) ---
 const demandModel = [
   { type: "Peak", demand: 40, prob: 0.25 },
   { type: "Normal", demand: 30, prob: 0.50 },
@@ -32,8 +30,16 @@ window.addEventListener("DOMContentLoaded", () => {
   resetBtn.addEventListener("click", resetTable);
 
   function runSimulation() {
-    const orderQty = Math.max(1, parseInt(document.getElementById("orderQty").value || 35));
+    let orderQty = parseInt(document.getElementById("orderQty").value || 35);
     const days = Math.max(1, parseInt(document.getElementById("numDays").value || 25));
+
+    // ✅ Validate multiple of 5
+    if (orderQty % 5 !== 0) {
+      alert("⚠ Please enter an order quantity that is a multiple of 5 (e.g. 5, 10, 15...)");
+      return;
+    }
+
+    orderQty = Math.max(5, orderQty);
 
     // Reset table
     tableBody.innerHTML = "";
